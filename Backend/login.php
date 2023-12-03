@@ -26,7 +26,7 @@ if ($query->num_rows > 0) {
         ];
 
         
-        $secret_key = "your_secret_key";
+        $secret_key = "lazy_susan";
         $jwt_token = jwt_encode($token_payload, $secret_key);
         $response = ["status" => "true", "token" => $jwt_token];
         
