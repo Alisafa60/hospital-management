@@ -7,7 +7,7 @@ $last_name = $_POST['last_name'];
 $email = $_POST['email'];
 $username = $_POST['username'];
 $password = $_POST['password'];
-$role = $_POST['role'];
+$role = "patient";
 $approved = 0;
 
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -15,7 +15,6 @@ $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 $token_payload = [
     "username" => $username,
     "role" => $role,
-    "approved" => $approved
 ];
 $secret_key = "lazy_susan";
 $jwt_token = jwt_encode($token_payload, $secret_key);

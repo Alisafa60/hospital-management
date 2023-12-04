@@ -17,7 +17,7 @@ $result = $query->get_result();
 if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
 
-    // update user role and approval status in the users table
+    // update user role (either change or keep) and approval status in the users table
     $update_query = $mysqli->prepare('UPDATE users SET role = ?, approved = 1 WHERE user_id = ?');
     $update_query->bind_param('si', $new_role, $user_id);
     $update_query->execute();
