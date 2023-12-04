@@ -10,7 +10,6 @@ $doctor_id = $_POST['doctor_id'];
 $appointment_date = $_POST['appointment_date'];
 $appointment_time = $_POST['appointment_time'];
 
-// Fetch doctor's schedule
 $query = $mysqli->prepare('SELECT start_time, end_time, available_days FROM doctors WHERE doctor_id = ?');
 $query->bind_param('i', $doctor_id);
 $query->execute();
