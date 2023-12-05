@@ -17,30 +17,48 @@ if ($check_query->num_rows > 0) {
     // Hash the admin password
     $hashed_admin_password = password_hash($admin_password, PASSWORD_DEFAULT);
 
-    // Insert admin user into the database
-    $insert_query = $mysqli->prepare('INSERT INTO users(username, password, role) VALUES (?, ?, "admin")');
-    $insert_query->bind_param('ss', $admin_username, $hashed_admin_password);
-    $insert_query->execute();
+    // Insert admin user into the users table
+    $insert_user_query = $mysqli->prepare('INSERT INTO users(username, password, role) VALUES (?, ?, "admin")');
+    $insert_user_query->bind_param('ss', $admin_username, $hashed_admin_password);
+    $insert_user_query->execute();
 
-    if ($insert_query->affected_rows > 0) {
-        // Issue a JWT for the newly created admin
-        $admin_user_id = $insert_query->insert_id;
-        $token_payload = [
-            "user_id" => $admin_user_id,
-            "username" => $admin_username,
-            "role" => "admin"
-        ];
+    if ($insert_user_query->affected_rows > 0) {
+        // Get the user ID of the newly created admin
+        $admin_user_id = $insert_user_query->insert_id;
 
-        $secret_key = "lazy_susan";
-        $jwt_token = jwt_encode($token_payload, $secret_key);
+        // Insert admin details into the admin table
+        $insert_admin_query = $mysqli->prepare('INSERT INTO admins(user_id, first_name, last_name) VALUES (?, ?, ?)');
+        $insert_admin_query->bind_param('iss', $admin_user_id, $first_name, $last_name);
+        
+        // Add additional fields for admin details and set their values
+        $first_name = $_POST['first_name'];
+        $last_name = $_POST['last_name'];
 
-        $response = ["status" => "true", "token" => $jwt_token];
+        $insert_admin_query->execute();
+
+        if ($insert_admin_query->affected_rows > 0) {
+            // Issue a JWT for the newly created admin
+            $token_payload = [
+                "user_id" => $admin_user_id,
+                "username" => $admin_username,
+                "role" => "admin"
+            ];
+
+            $secret_key = "lazy_susan";
+            $jwt_token = jwt_encode($token_payload, $secret_key);
+
+            $response = ["status" => "true", "token" => $jwt_token];
+        } else {
+            $response = ["status" => "false", "message" => "Failed to create admin details"];
+        }
+
+        $insert_admin_query->close();
     } else {
         $response = ["status" => "false", "message" => "Failed to create admin"];
     }
-}
 
-echo json_encode($response);
+    $insert_user_query->close();
+}
 
 function jwt_encode($payload, $secret_key) {
     // Base64Url encode the JWT header and payload
@@ -63,3 +81,7 @@ function base64UrlEncode($data) {
     $base64Url = strtr($base64, '+/', '-_');
     return rtrim($base64Url, '=');
 }
+
+echo json_encode($response);
+
+
