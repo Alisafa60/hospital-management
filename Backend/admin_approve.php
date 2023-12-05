@@ -4,7 +4,7 @@ include("db_connection.php");
 include("meddleware.php");
 
 authorize('admin'); 
-
+//approving user (patients or doctors) by admin
 $user_id = $_POST['user_id'];
 $new_role = $_POST['new_role'];
 

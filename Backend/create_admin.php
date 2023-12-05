@@ -4,7 +4,7 @@ include("db_connection.php");
 
 $admin_username = $_POST['admin_username'];
 $admin_password = $_POST['admin_password'];
-
+//creating an admin to manage patients and users
 // check if admin already exists
 $check_query = $mysqli->prepare('SELECT user_id FROM users WHERE username=? AND role="admin"');
 $check_query->bind_param('s', $admin_username);
@@ -16,7 +16,7 @@ if ($check_query->num_rows > 0) {
 } else {
     $hashed_admin_password = password_hash($admin_password, PASSWORD_DEFAULT);
 
-    $insert_user_query = $mysqli->prepare('INSERT INTO users(username, password, role) VALUES (?, ?, "admin")');
+    $insert_user_query = $mysqli->prepare('INSERT INTO users(username, password, role, approved) VALUES (?, ?, "admin", 1)');
     $insert_user_query->bind_param('ss', $admin_username, $hashed_admin_password);
     $insert_user_query->execute();
 

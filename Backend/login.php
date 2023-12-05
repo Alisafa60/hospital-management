@@ -5,7 +5,7 @@ include('db_connection.php');
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-$query = $mysqli->prepare('SELECT user_id, username, password, role FROM users WHERE username=?');
+$query = $mysqli->prepare('SELECT user_id, username, password, role FROM users WHERE username=? AND approved=1');
 $query->bind_param('s', $username);
 $query->execute();
 $query->store_result();
