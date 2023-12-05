@@ -6,8 +6,8 @@ include("meddleware.php");
 authorize('patient');
 
 $user_id = $_POST['user_id'];
-
-$user_query = $mysqli->prepare('SELECT first_name, last_name FROM users WHERE user_id = ?');
+//fetch from user user_id of role patient, and request emergency room
+$user_query = $mysqli->prepare('SELECT first_name, last_name FROM users WHERE user_id = ? AND role = "patient"');
 $user_query->bind_param('i', $user_id);
 $user_query->execute();
 $user_query->bind_result($first_name, $last_name);
