@@ -4,7 +4,7 @@ include("db_connection.php");
 include("meddleware.php");
 
 authorize('doctor');
-
+//asign doctor to a room with a patient of user id
 $user_id = $_POST['user_id'];  
 $doctor_id = $_POST['doctor_id']; 
 
