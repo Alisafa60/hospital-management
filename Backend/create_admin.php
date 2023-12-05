@@ -5,7 +5,7 @@ include("db_connection.php");
 $admin_username = $_POST['admin_username'];
 $admin_password = $_POST['admin_password'];
 
-// Check if admin already exists
+// check if admin already exists
 $check_query = $mysqli->prepare('SELECT user_id FROM users WHERE username=? AND role="admin"');
 $check_query->bind_param('s', $admin_username);
 $check_query->execute();
@@ -14,30 +14,24 @@ $check_query->store_result();
 if ($check_query->num_rows > 0) {
     $response = ["status" => "false", "message" => "Admin already exists"];
 } else {
-    // Hash the admin password
     $hashed_admin_password = password_hash($admin_password, PASSWORD_DEFAULT);
 
-    // Insert admin user into the users table
     $insert_user_query = $mysqli->prepare('INSERT INTO users(username, password, role) VALUES (?, ?, "admin")');
     $insert_user_query->bind_param('ss', $admin_username, $hashed_admin_password);
     $insert_user_query->execute();
 
     if ($insert_user_query->affected_rows > 0) {
-        // Get the user ID of the newly created admin
         $admin_user_id = $insert_user_query->insert_id;
 
-        // Insert admin details into the admin table
         $insert_admin_query = $mysqli->prepare('INSERT INTO admins(user_id, first_name, last_name) VALUES (?, ?, ?)');
         $insert_admin_query->bind_param('iss', $admin_user_id, $first_name, $last_name);
         
-        // Add additional fields for admin details and set their values
         $first_name = $_POST['first_name'];
         $last_name = $_POST['last_name'];
 
         $insert_admin_query->execute();
 
         if ($insert_admin_query->affected_rows > 0) {
-            // Issue a JWT for the newly created admin
             $token_payload = [
                 "user_id" => $admin_user_id,
                 "username" => $admin_username,
