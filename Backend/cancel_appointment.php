@@ -4,6 +4,7 @@ include("db_connection.php");
 include("meddleware.php");
 
 authorize('patient');
+authorize('doctor');
 
 $patient_id = $_POST['patient_id'];
 $appointment_id = $_POST['appointment_id'];
