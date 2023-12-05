@@ -4,12 +4,12 @@ include("db_connection.php");
 include("meddleware.php");
 
 authorize('admin');
-
+//admin aproving or rejecting requests and puting patients to rooms in the later case
 $request_id = $_POST['request_id'];
 $action = $_POST['action'];
 
 if ($action == 'approved') {
-    // trieve user_id retrieval from the emergency room request to set it later to a room
+    // retrieve user_id retrieval from the emergency room request to set it later to a room
     $select_request_query = $mysqli->prepare('SELECT user_id FROM emergencyroomrequest WHERE request_id = ?');
     $select_request_query->bind_param('i', $request_id);
     $select_request_query->execute();

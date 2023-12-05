@@ -4,7 +4,7 @@ function decode_jwt($jwt_token, $secret_key) {
     $token_parts = explode(".", $jwt_token);
     $token_payload = json_decode(base64UrlDecode($token_parts[1]), true);
 
-    // Verify the signature
+    // verify the signature
     $signature = base64UrlDecode($token_parts[2]);
     $expected_signature = hash_hmac("sha256", "$token_parts[0].$token_parts[1]", $secret_key, true);
 
@@ -19,13 +19,12 @@ function base64UrlDecode($data) {
     $base64_padded = str_pad($base64, strlen($data) % 4, '=', STR_PAD_RIGHT);
     return base64_decode($base64_padded);
 }
-
-// Authorization Middleware
+//authorization middleware
 function authorize($required_role) {
 
     $secret_key = "lazy_susan";
 
-    // JWT token from the Authorization header
+    // JWT token from the authorization header
     $auth_header = $_SERVER['HTTP_AUTHORIZATION'];
     list($jwt_token) = sscanf($auth_header, 'Bearer %s');
 
