@@ -50,8 +50,10 @@ const Login = () => {
         <InputField label="password" type="text" value={formData.password} onChange={(value) => handleInputChange(value, 'password')} />
         <button type="submit">Log in</button>
       </form>
+       {loginStatus === 'success' && <p>Login successful!</p>}
+      {loginStatus === 'failure' && <p>Login failed. Incorrect credentials.</p>}
     </div>
   );
 };
-//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkI…luIn0.DVg-0bPuSxRX1yj0q-6kfvgERGRRbrVLTg4GqZhV8nQ
+
 export default Login;
