@@ -27,8 +27,6 @@ const Login = () => {
         { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
       );
 
-      console.log('Server Response:', response.data);
-
       if (response.data.status === 'true') {
         console.log('Login successful');
         setLoginStatus('success');
@@ -48,12 +46,12 @@ const Login = () => {
     <div>
       <h2>Log in</h2>
       <form onSubmit={handleLogin}>
-        <InputField label="username" type="text" value={formData.first_name} onChange={(value) => handleInputChange(value, 'first_name')} />
-        <InputField label="passwprd" type="text" value={formData.last_name} onChange={(value) => handleInputChange(value, 'last_name')} />
+        <InputField label="username" type="text" value={formData.username} onChange={(value) => handleInputChange(value, 'username')} />
+        <InputField label="password" type="text" value={formData.password} onChange={(value) => handleInputChange(value, 'password')} />
         <button type="submit">Log in</button>
       </form>
     </div>
   );
 };
-
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkI…luIn0.DVg-0bPuSxRX1yj0q-6kfvgERGRRbrVLTg4GqZhV8nQ
 export default Login;
