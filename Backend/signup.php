@@ -1,5 +1,6 @@
 <?php
-header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Origin:*');
+header('Access-Control-Allow-Headers:*');
 include("db_connection.php");
 
 $first_name = $_POST['first_name'];

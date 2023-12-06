@@ -1,6 +1,8 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
 
-header('Access-Controll-Allow-Origin:*');
 include('db_connection.php');
 $username = $_POST['username'];
 $password = $_POST['password'];
